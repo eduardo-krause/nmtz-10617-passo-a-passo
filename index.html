@@ -1,0 +1,273 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>NMTZ-10617 - Checklist</title>
+<style>
+@page { size: A4; margin: 14mm 13mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.5pt; color: #1d2330; line-height: 1.42; margin: 0; }
+h1 { font-size: 19pt; margin: 0 0 2px; color: #0b3d6e; }
+.sub { color: #5a6578; margin-bottom: 14px; }
+h2 { font-size: 12.5pt; color: #0b3d6e; margin: 0 0 6px; display: flex; gap: 8px; align-items: baseline; }
+.num { background: #0b3d6e; color: #fff; border-radius: 4px; padding: 1px 7px; font-size: 10.5pt; flex: none; }
+.caso { border: 1px solid #cfd7e3; border-radius: 6px; padding: 10px 12px; margin: 0 0 12px; page-break-inside: avoid; }
+.meta { color: #44506a; font-size: 9.5pt; margin-bottom: 4px; }
+.obs { background: #fff6dd; border-left: 3px solid #e0a800; padding: 5px 8px; font-size: 9.5pt; margin: 4px 0; }
+ol { margin: 2px 0 4px 18px; padding: 0; } li { margin: 2px 0; }
+code { font-family: Consolas, monospace; background: #eef2f7; padding: 0 4px; border-radius: 3px; font-size: 10pt; }
+.ua, .ub { display: inline-block; min-width: 17px; text-align: center; border-radius: 3px; font-weight: 700; font-size: 9pt; padding: 0 4px; margin-right: 2px; color: #fff; }
+.ua { background: #1f6fb2; } .ub { background: #b35c00; }
+.conf { background: #eef6ee; border-radius: 5px; padding: 5px 8px; margin: 4px 0 2px; }
+.ct { font-weight: 700; color: #1d6b2c; font-size: 9.5pt; margin-bottom: 2px; }
+.ck { display: flex; gap: 7px; align-items: flex-start; margin: 2px 0; }
+.box { display: inline-block; width: 10px; height: 10px; border: 1.3px solid #444; border-radius: 2px; flex: none; margin-top: 4px; }
+.res { margin-top: 6px; font-size: 9.5pt; color: #333; }
+.res .box { margin-top: 0; vertical-align: middle; }
+table { border-collapse: collapse; width: 100%; font-size: 9.5pt; margin: 6px 0 12px; }
+th, td { border: 1px solid #cfd7e3; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #0b3d6e; color: #fff; }
+.secao { font-size: 15pt; color: #0b3d6e; border-bottom: 2px solid #0b3d6e; padding-bottom: 3px; margin: 18px 0 10px; page-break-after: avoid; }
+.quebra { page-break-before: always; }
+.aviso { background: #fde8e8; border-left: 3px solid #c0392b; padding: 6px 9px; margin: 8px 0; font-size: 9.5pt; }
+
+.cb { width: 15px; height: 15px; margin-top: 2px; flex: none; cursor: pointer; }
+.ck:has(.cb:checked) span { color: #6b7a6b; text-decoration: line-through; }
+.res label { margin-right: 12px; cursor: pointer; }
+.res textarea { display: block; width: 100%; min-height: 34px; margin-top: 5px; font: inherit; padding: 4px 6px; border: 1px solid #cfd7e3; border-radius: 4px; }
+.caso.ok { border-color: #2e8b3d; background: #f6fbf6; } .caso.rep { border-color: #c0392b; background: #fdf5f5; }
+body { max-width: 900px; margin: 0 auto; padding: 70px 16px 30px; }
+#barra { position: fixed; top: 0; left: 0; right: 0; background: #0b3d6e; color: #fff; padding: 8px 16px; display: flex; gap: 14px; align-items: center; z-index: 9; font-size: 10pt; flex-wrap: wrap; }
+#barra button { background: #fff; color: #0b3d6e; border: 0; border-radius: 4px; padding: 4px 10px; cursor: pointer; font-weight: 600; }
+@media print { #barra { display: none; } body { padding-top: 0; } }</style></head><body><div id="barra"><b>NMTZ-10617</b><span id="prog"></span><button onclick="window.print()">Imprimir / PDF</button><button onclick="limpar()">Limpar tudo</button></div>
+<h1>NMTZ-10617 – Passo a passo dos casos de teste</h1>
+<div class="sub">Criar controle de concorrência no pedido de venda · Pedido Venda, Aprovação Pedido e aba Faturamento · gerado em 11/11/2026</div>
+
+<div class="secao">1. Ambiente e usuários</div>
+<ol>
+<li>Abra o AT da tarefa: <code>https://erp-homologacao-nmtz-10617.viasoftcloud.com.br/</code> (base <b>AT: nmtz-10617</b>; a lista de Empresa rola, desça até achar).</li>
+<li><span class="ua">A</span> <b>Usuário A</b> = navegador 1 (ex.: USER IA). <span class="ub">B</span> <b>Usuário B</b> = <b>outro navegador</b> ou janela anônima, com outro login (ex.: USUÁRIO DE TESTE EDU). Deixe as duas janelas lado a lado.</li>
+<li>Quando o passo diz "outra aba" de A, é uma nova aba no <b>mesmo</b> navegador de A.</li>
+<li>Telas: <b>Processos » Vendas » Pedido Venda</b> (lista, aba <b>FATURAMENTO</b> e o pedido), <b>Processos » Vendas » Aprovação Pedido</b> e <b>Consulta Pedido</b> (pesquise pelo nome no menu).</li>
+<li>"Sem F5" = não atualizar a página. Nos casos com tempo, use o cronômetro do celular e deixe a aba de A visível.</li>
+</ol>
+<div class="aviso">Na última rodada (28/10) o USUÁRIO DE TESTE EDU tomava 401 no Pedido Venda do AT recriado e só o USER IA era aprovador. Confira o acesso do B ao Pedido Venda antes de começar.</div>
+
+<div class="secao">2. Pedidos para preparar</div>
+<table>
+<tr><th>Apelido</th><th>Como montar</th><th>Usado em</th></tr>
+<tr><td>PENDENTE</td><td>Pedido Venda » Novo: natureza <b>PEDIDO DE VENDA - À VISTA</b>, cliente <b>EDUARDO KRAUSE</b>, forma <b>DINHEIRO</b>, item <b>AGULHA</b> 1 un » <b>Salvar</b> (não concluir).</td><td>02, 04, 06, 07, 08, 09, 19, 20</td></tr>
+<tr><td>EM ANÁLISE</td><td>Igual, com <b>PÁ DE FERRO</b> 14 un (R$ 1.050,00 ≥ R$ 1.000 cai na regra VALOR PEDIDO) » <b>Concluir Pedido</b>.</td><td>05, 10</td></tr>
+<tr><td>APROVADO</td><td>PENDENTE com AGULHA 3 un » <b>Concluir Pedido</b> (aprova direto).</td><td>01</td></tr>
+<tr><td>APROVADO c/ ordem</td><td>APROVADO » seção de ordens » <b>Adicionar</b> » 1 un » confirmar (sobra saldo de 2).</td><td>03, 11, 12, 13, 14, 15, 18, 21</td></tr>
+<tr><td>Com similar e receituário</td><td>P1: APROVADO com ordem, com um item que tem similar e um item agrotóxico com receituário (janela <b>Defensivo</b>). P2: pedido com itens com receituário.</td><td>18</td></tr>
+<tr><td>VENDA ENTREGA FUTURA</td><td>Natureza <b>PEDIDO DE VENDA FUTURA</b>, cliente <b>PRODUTOR RURAL</b>, forma <b>DUPLICATA</b> 30/60 (Gerar), item <b>CORDA</b> 5 » <b>Concluir Pedido</b>.</td><td>02, 16, 17</td></tr>
+</table>
+<div class="aviso">Itens, clientes e naturezas são os da última rodada. O banco do AT foi recriado depois disso: se algum não existir, use um equivalente. Falta definir no AT: <b>item com similar</b> e <b>item agrotóxico com receituário</b> (caso 18). Pedido aprovado de dias anteriores vence (validade = data de emissão): crie os pedidos no dia do teste.</div>
+
+<div class="secao">3. Mensagens esperadas</div>
+<table>
+<tr><th>Situação</th><th>Texto</th></tr>
+<tr><td>Tela bloqueada (quem só olha)</td><td>"<i>Este pedido está sendo editado por &lt;Usuário A&gt;. A tela será liberada automaticamente quando a edição for encerrada.</i>"</td></tr>
+<tr><td>Ação bloqueada (aprovar, faturar, salvar)</td><td>"<i>Este pedido está sendo editado por &lt;Usuário A&gt;. Aguarde a liberação para alterá-lo.</i>"</td></tr>
+<tr><td>Modal de concorrência (com Recarregar)</td><td>"<i>Este pedido foi alterado por outro usuário. Recarregue a página para atualizar.</i>"</td></tr>
+<tr><td>Gerar Nota em assistente desatualizado</td><td>"<i>Este pedido foi alterado por outro usuário. Volte para o pedido e recarregue a página para continuar.</i>"</td></tr>
+<tr><td>Aviso de inatividade (4 min)</td><td>"<i>Sem interação com a tela, o pedido será liberado para outros usuários em 1 minuto.</i>"</td></tr>
+<tr><td>Segunda nota de venda futura</td><td>"<i>Já existe uma nota fiscal de venda futura gerada para este pedido.</i>"</td></tr>
+</table>
+
+<div class="secao quebra">4. Casos de teste do Jira (01 a 18)</div>
+
+<section class="caso">
+  <h2><span class="num">01</span>Bloquear o Faturar da aba Faturamento quando o pedido selecionado foi alterado após o carregamento da lista</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido APROVADO com saldo para nova ordem de entrega</div>
+  
+  <ol><li><span class="ua">A</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Deixe a lista carregada (não atualize mais).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> Na seção de ordens de entrega, clique em <b>Adicionar</b>, informe uma quantidade e confirme.</li><li><span class="ub">B</span> Clique em <b>Voltar</b> (sai do pedido).</li><li><span class="ua">A</span> Na lista que já estava aberta, expanda o cliente, marque a ordem do pedido <b>P</b> e clique em <b>Faturar</b>.</li><li><span class="ua">A</span> Clique em <b>Recarregar</b>.</li><li><span class="ua">A</span> Marque de novo a ordem do pedido <b>P</b> e clique em <b>Faturar</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="01-c0"><span><b>Passo 5:</b> Abre a modal com "<i>Este pedido foi alterado por outro usuário. Recarregue a página para atualizar.</i>" e o botão <b>Recarregar</b>.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="01-c1"><span><b>Passo 5:</b> O assistente de faturamento <b>não</b> abre.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="01-c2"><span><b>Passo 7:</b> O assistente de faturamento abre normalmente.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-01" value="ok" data-k="01-r"> OK</label> <label><input type="radio" name="r-01" value="rep" data-k="01-r"> Reprovado</label><textarea data-k="01-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">02</span>Executar as ações do pedido sem bloqueio quando apenas um usuário está com o pedido aberto</h2>
+  <div class="meta"><b>Pedidos:</b> P1 = pedido PENDENTE de venda normal (AGULHA, DINHEIRO); P2 = VENDA ENTREGA FUTURA aprovada; P3 = outro pedido PENDENTE</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique).</li><li><span class="ua">A</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 02</code> (não salve).</li><li><span class="ua">A</span> Clique em <b>Salvar</b>.</li><li><span class="ua">A</span> No menu <b>⋮ » Condições de Venda</b>, troque só a <b>forma de pagamento</b> (ex.: DINHEIRO → PIX), confirme e clique em <b>Salvar</b>.</li><li><span class="ua">A</span> Clique em <b>Concluir Pedido</b>.</li><li><span class="ua">A</span> Clique em <b>ENTREGA TOTAL</b> e confirme.</li><li><span class="ua">A</span> Clique em <b>Faturamento Total</b>.</li><li><span class="ua">A</span> No assistente, clique em <b>Próximo</b> até o fim e em <b>Gerar Nota</b>.</li><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido de venda entrega futura <b>P2</b> e abra (duplo clique).</li><li><span class="ua">A</span> Clique em <b>GERAR NOTA</b>. A nota provisória abre em outra aba.</li><li><span class="ua">A</span> Na nota, conclua o acerto financeiro proposto e clique em <b>Salvar</b>.</li><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P3</b> e abra (duplo clique).</li><li><span class="ua">A</span> No menu <b>⋮</b>, clique em <b>Excluir</b> e confirme em <b>Excluir</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="02-c0"><span><b>Passo 3:</b> Salva sem a modal de concorrência.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="02-c1"><span><b>Passo 4:</b> Salva de novo sem a modal de concorrência.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="02-c2"><span><b>Passo 5:</b> O pedido é concluído (Aprovado) sem a modal de concorrência.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="02-c3"><span><b>Passo 6:</b> A ordem de entrega é gerada sem a modal de concorrência.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="02-c4"><span><b>Passo 8:</b> A nota fiscal é gerada sem bloqueio.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="02-c5"><span><b>Passo 11:</b> A nota de venda entrega futura é gerada e salva normalmente.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="02-c6"><span><b>Passo 13:</b> O pedido é excluído normalmente (não aparece mais na pesquisa).</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-02" value="ok" data-k="02-r"> OK</label> <label><input type="radio" name="r-02" value="rep" data-k="02-r"> Reprovado</label><textarea data-k="02-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">03</span>Bloquear a geração de nota no assistente de faturamento quando o pedido foi alterado após a abertura do assistente</h2>
+  <div class="meta"><b>Pedidos:</b> P1 e P2 = pedidos APROVADOS com ordem de entrega (sem nota)</div>
+  
+  <ol><li><span class="ua">A</span> <b>Aba 1:</b> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P</b>. Clique em <b>Faturar</b>.</li><li><span class="ua">A</span> (aba 1) No assistente, clique em <b>Próximo</b> em cada etapa até chegar ao botão <b>Gerar Nota</b> (não clique ainda).</li><li><span class="ua">A</span> <b>Aba 2</b> (nova aba do mesmo navegador): repita a aba FATURAMENTO, marque a mesma ordem, clique em <b>Faturar</b> e avance até <b>Gerar Nota</b>.</li><li><span class="ua">A</span> Volte na <b>aba 1</b> e clique em <b>Gerar Nota</b>.</li><li><span class="ua">A</span> Vá para a <b>aba 2</b> e clique em <b>Gerar Nota</b>.</li><li>Repita com o pedido <b>P2</b>: as duas abas até o <b>Gerar Nota</b>.</li><li><span class="ua">A</span> Clique em <b>Gerar Nota</b> nas duas abas <b>o mais junto possível</b> (um clique logo após o outro).</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="03-c0"><span><b>Passo 5:</b> Aba 1: a nota fiscal é gerada.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="03-c1"><span><b>Passo 5:</b> Aba 2: aparece "<i>Este pedido foi alterado por outro usuário. Volte para o pedido e recarregue a página para continuar.</i>"</span></div><div class="ck"><input type="checkbox" class="cb" data-k="03-c2"><span><b>Passo 5:</b> Aba 2: o botão <b>Gerar Nota</b> fica desabilitado.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="03-c3"><span><b>Passo 7:</b> Só uma das abas gera a nota; a outra mostra a mesma mensagem.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="03-c4"><span><b>Passo 7:</b> Em <b>Nota Fiscal</b>, pesquisando pelo pedido (P1 e P2), existe <b>uma única</b> nota para cada faturamento, sem nota parcial.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-03" value="ok" data-k="03-r"> OK</label> <label><input type="radio" name="r-03" value="rep" data-k="03-r"> Reprovado</label><textarea data-k="03-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">04</span>Atualizar automaticamente a tela bloqueada do segundo usuário quando quem edita grava alterações</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido PENDENTE</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique). A tela abre bloqueada.</li><li><span class="ua">A</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 04</code> (não salve).</li><li><span class="ua">A</span> Clique em <b>Item</b>, pesquise um item (ex.: AGULHA), clique em <b>ADICIONAR</b>, confirme e volte ao pedido.</li><li><span class="ua">A</span> Clique em <b>Salvar</b>.</li><li><span class="ub">B</span> Sem mexer na tela, cronometre <b>15 segundos</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="04-c0"><span>Em até 15 s a tela de B mostra a observação <b>TESTE CASO 04</b> e o item incluído.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="04-c1"><span>Aparece a mensagem de atualização ("Pedido atualizado com as alterações de quem está editando.").</span></div><div class="ck"><input type="checkbox" class="cb" data-k="04-c2"><span>A tela de B continua bloqueada.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-04" value="ok" data-k="04-r"> OK</label> <label><input type="radio" name="r-04" value="rep" data-k="04-r"> Reprovado</label><textarea data-k="04-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">05</span>Abrir o pedido bloqueado para outra sessão enquanto o pedido está em edição</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido EM ANÁLISE</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> Tente clicar em campos, itens, ordens de entrega, faturamento, nos botões <b>Salvar</b>, <b>Concluir</b>, <b>Editar</b>, <b>Buscar itens</b> e nas opções do menu <b>⋮</b>.</li><li><span class="ua">A</span> Na primeira aba, altere a Observação.</li><li><span class="ub">B</span> Clique em <b>Voltar</b>.</li><li><span class="ua">A</span> Em outra aba, pesquise no menu por <b>Consulta Pedido</b>, ache o pedido <b>P</b> e abra.</li><li><span class="ua">A</span> Em <b>Processos » Vendas » Aprovação Pedido</b>, clique no link (número) do pedido <b>P</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="05-c0"><span><b>Passo 4:</b> A continua editando normalmente na primeira aba.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="05-c1"><span><b>Passo 4:</b> Para B tudo aparece esmaecido e não responde ao clique.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="05-c2"><span><b>Passo 4:</b> Para B aparece "<i>Este pedido está sendo editado por &lt;Usuário A&gt;. A tela será liberada automaticamente quando a edição for encerrada.</i>", com o nome do Usuário A em <b>negrito</b>.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="05-c3"><span><b>Passo 5:</b> O Voltar funciona (B sai do pedido).</span></div><div class="ck"><input type="checkbox" class="cb" data-k="05-c4"><span><b>Passo 6:</b> A segunda aba de A abre bloqueada do mesmo jeito.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="05-c5"><span><b>Passo 7:</b> O pedido abre em <b>nova aba</b>, bloqueado, informando que o Usuário A está editando.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-05" value="ok" data-k="05-r"> OK</label> <label><input type="radio" name="r-05" value="rep" data-k="05-r"> Reprovado</label><textarea data-k="05-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">06</span>Liberar a edição para o segundo usuário quando quem edita sai do pedido</h2>
+  <div class="meta"><b>Pedidos:</b> P1 e P2 = pedidos PENDENTES; P3 = qualquer pedido (só A)</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique). (bloqueado)</li><li><span class="ua">A</span> Clique em <b>Item</b> (busca de itens) e fique nela uns 20 segundos.</li><li><span class="ua">A</span> Volte ao pedido e clique em <b>Voltar</b> (sai do pedido).</li><li><span class="ub">B</span> Sem mexer, cronometre 15 segundos.</li><li><span class="ub">B</span> Saia do pedido.</li><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique). (bloqueado)</li><li><span class="ua">A</span> <b>Feche a aba</b> do pedido (X da aba do navegador).</li><li><span class="ub">B</span> Cronometre até 2 minutos.</li><li><span class="ua">A</span> (sem B) Pesquise no menu por <b>Consulta Pedido</b> e abra o pedido <b>P3</b> (abre em nova aba).</li><li><span class="ua">A</span> Feche essa aba.</li><li><span class="ua">A</span> Abra o mesmo pedido de novo pela <b>Consulta Pedido</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="06-c0"><span><b>Passo 3:</b> Durante a busca de itens, a tela de B continua bloqueada.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="06-c1"><span><b>Passo 5:</b> Em até 15 s a tela de B atualiza, mostra a mensagem de liberação e permite editar.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="06-c2"><span><b>Passo 10:</b> A tela de B é liberada na hora ou em até <b>2 minutos</b>.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="06-c3"><span><b>Passo 13:</b> A nova aba abre <b>editável na hora</b>, sem esperar liberação por tempo.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-06" value="ok" data-k="06-r"> OK</label> <label><input type="radio" name="r-06" value="rep" data-k="06-r"> Reprovado</label><textarea data-k="06-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">07</span>Liberar o pedido original ao copiar o pedido em edição</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido PENDENTE</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique). (bloqueado)</li><li><span class="ua">A</span> No menu <b>⋮</b>, clique em <b>Copiar</b> e confirme.</li><li><span class="ub">B</span> Sem mexer, cronometre 15 segundos.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="07-c0"><span>O pedido novo (cópia) abre editável para A.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="07-c1"><span>Em até 15 s a tela de B é liberada para editar o pedido <b>original</b>.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-07" value="ok" data-k="07-r"> OK</label> <label><input type="radio" name="r-07" value="rep" data-k="07-r"> Reprovado</label><textarea data-k="07-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">08</span>Liberar o pedido e descartar as alterações não salvas após 5 minutos sem interação de quem edita</h2>
+  <div class="meta"><b>Pedidos:</b> P1 e P2 = pedidos PENDENTES</div>
+  <div class="obs">Deixe a aba de A <b>visível na tela</b> (não minimizada nem atrás de outra): com a aba em segundo plano o navegador atrasa os relógios e a liberação pode passar de 5 para ~6 min.</div>
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique).</li><li><span class="ua">A</span> No pedido, clique no campo <b>Observações</b> e digite <code>NAO SALVA 08</code> (não salve).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique). (bloqueado)</li><li><span class="ua">A</span> Solte o mouse e o teclado e cronometre <b>4 minutos</b>.</li><li><span class="ua">A</span> Mexa o mouse sobre a tela.</li><li><span class="ua">A</span> Solte de novo e cronometre <b>5 minutos</b>.</li><li><span class="ub">B</span> Sem mexer, cronometre 15 segundos depois da liberação de A.</li><li>Saiam do pedido. No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique). (A) e abra também com B (bloqueado).</li><li><span class="ua">A</span> Fique <b>mais de 5 minutos</b> mexendo normalmente (clicar em campos, rolar a tela, digitar sem salvar).</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="08-c0"><span><b>Passo 4:</b> Aos 4 min aparece "<i>Sem interação com a tela, o pedido será liberado para outros usuários em 1 minuto.</i>"</span></div><div class="ck"><input type="checkbox" class="cb" data-k="08-c1"><span><b>Passo 5:</b> A notificação some e a edição continua.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="08-c2"><span><b>Passo 6:</b> Aos 5 min a página de A <b>recarrega</b> e fica bloqueada com a mensagem de liberação por inatividade.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="08-c3"><span><b>Passo 6:</b> O campo <b>Observações</b> não tem mais NAO SALVA 08 (descartado).</span></div><div class="ck"><input type="checkbox" class="cb" data-k="08-c4"><span><b>Passo 7:</b> Em até 15 s a tela de B é liberada para edição.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="08-c5"><span><b>Passo 9:</b> Interagindo normalmente, o pedido <b>não</b> é liberado (B continua bloqueado).</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-08" value="ok" data-k="08-r"> OK</label> <label><input type="radio" name="r-08" value="rep" data-k="08-r"> Reprovado</label><textarea data-k="08-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">09</span>Retomar a edição após a liberação por inatividade somente se nenhum outro usuário assumiu o pedido</h2>
+  <div class="meta"><b>Pedidos:</b> P1 e P2 = pedidos PENDENTES</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique).</li><li><span class="ua">A</span> Fique 5 minutos sem mexer até a liberação por inatividade.</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique). (agora abre editável) e deixe aberto.</li><li><span class="ua">A</span> Mexa o mouse.</li><li>B sai do pedido. No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique). (A).</li><li><span class="ua">A</span> Fique 5 minutos sem mexer até a liberação por inatividade (sem B no pedido).</li><li><span class="ua">A</span> Mexa o mouse.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="09-c0"><span><b>Passo 4:</b> Com B editando, a tela de A continua bloqueada com "<i>Este pedido está sendo editado por &lt;Usuário B&gt;. A tela será liberada automaticamente quando a edição for encerrada.</i>"</span></div><div class="ck"><input type="checkbox" class="cb" data-k="09-c1"><span><b>Passo 7:</b> Sem B, a tela de A volta a ser editável com os dados atualizados.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-09" value="ok" data-k="09-r"> OK</label> <label><input type="radio" name="r-09" value="rep" data-k="09-r"> Reprovado</label><textarea data-k="09-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">10</span>Bloquear a aprovação e a reprovação de pedido em edição por outro usuário</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido EM ANÁLISE</div>
+  <div class="obs">Quem aprova precisa ser aprovador. Na última rodada só o USER IA era aprovador: inverta os papéis (USUÁRIO DE TESTE EDU edita, USER IA aprova).</div>
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> Acesse <b>Processos » Vendas » Aprovação Pedido</b>, abra as regras do pedido <b>P</b> e clique em <b>APROVAR</b> (confirme).</li><li><span class="ub">B</span> No mesmo pedido, clique em <b>REPROVAR</b> (informe o motivo, se pedir, e confirme).</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="10-c0"><span><b>Passo 2:</b> Aparece "<i>Este pedido está sendo editado por &lt;Usuário A&gt;. Aguarde a liberação para alterá-lo.</i>"</span></div><div class="ck"><input type="checkbox" class="cb" data-k="10-c1"><span><b>Passo 3:</b> Aparece a mesma mensagem.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="10-c2"><span><b>Passo 3:</b> O pedido continua <b>Em análise</b>.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-10" value="ok" data-k="10-r"> OK</label> <label><input type="radio" name="r-10" value="rep" data-k="10-r"> Reprovado</label><textarea data-k="10-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">11</span>Bloquear o faturamento pela aba Faturamento de pedido em edição por outro usuário</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido APROVADO com ordem de entrega</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P</b>.</li><li><span class="ub">B</span> Clique em <b>Faturar</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="11-c0"><span>Aparece "<i>Este pedido está sendo editado por &lt;Usuário A&gt;. Aguarde a liberação para alterá-lo.</i>"</span></div><div class="ck"><input type="checkbox" class="cb" data-k="11-c1"><span>O assistente de faturamento <b>não</b> abre.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-11" value="ok" data-k="11-r"> OK</label> <label><input type="radio" name="r-11" value="rep" data-k="11-r"> Reprovado</label><textarea data-k="11-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">12</span>Impedir que outro usuário altere o pedido enquanto ele está sendo faturado</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido APROVADO com ordem de entrega e saldo</div>
+  
+  <ol><li><span class="ua">A</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P</b>.</li><li><span class="ua">A</span> Clique em <b>Faturar</b>. O assistente de faturamento abre. <b>Deixe-o aberto</b> (não clique em Gerar Nota).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 12</code> (não salve).</li><li><span class="ub">B</span> Clique em <b>Salvar</b>.</li><li><span class="ub">B</span> Na seção de ordens de entrega, clique em <b>Adicionar</b>.</li><li><span class="ub">B</span> Na linha de um item, clique no ícone de editar (lápis).</li><li><span class="ub">B</span> No menu <b>⋮</b>, clique em <b>Cancelar</b>, informe a justificativa <code>TESTE CASO 12</code> e confirme.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="12-c0"><span><b>Passo 5:</b> Aparece a mensagem informando que o pedido está sendo <b>faturado</b> pelo Usuário A.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="12-c1"><span><b>Passo 5:</b> A alteração <b>não</b> é gravada.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="12-c2"><span><b>Passo 6:</b> A janela não abre e aparece a mesma mensagem.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="12-c3"><span><b>Passo 7:</b> A janela não abre e aparece a mesma mensagem.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="12-c4"><span><b>Passo 8:</b> Aparece a mesma mensagem e o pedido <b>não</b> é cancelado.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-12" value="ok" data-k="12-r"> OK</label> <label><input type="radio" name="r-12" value="rep" data-k="12-r"> Reprovado</label><textarea data-k="12-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">13</span>Não abrir o assistente de faturamento para outro usuário enquanto o pedido está sendo faturado</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido APROVADO com ordem de entrega</div>
+  
+  <ol><li><span class="ua">A</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P</b>.</li><li><span class="ua">A</span> Clique em <b>Faturar</b>. O assistente de faturamento abre. <b>Deixe-o aberto</b> (não clique em Gerar Nota).</li><li><span class="ub">B</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P</b>.</li><li><span class="ub">B</span> Clique em <b>Faturar</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="13-c0"><span>Aparece a mensagem informando que o pedido está sendo <b>faturado</b> pelo Usuário A.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="13-c1"><span>O assistente <b>não</b> abre para B.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-13" value="ok" data-k="13-r"> OK</label> <label><input type="radio" name="r-13" value="rep" data-k="13-r"> Reprovado</label><textarea data-k="13-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">14</span>Bloquear a gravação do pedido na outra aba do mesmo usuário que está faturando</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido APROVADO com ordem de entrega (só o Usuário A)</div>
+  
+  <ol><li><span class="ua">A</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P</b>.</li><li><span class="ua">A</span> Clique em <b>Faturar</b>. O assistente de faturamento abre. <b>Deixe-o aberto</b> (não clique em Gerar Nota).</li><li><span class="ua">A</span> Em <b>outra aba</b>, abra o pedido <b>P</b>.</li><li><span class="ua">A</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 14</code> (não salve).</li><li><span class="ua">A</span> Clique em <b>Salvar</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="14-c0"><span>Aparece a mensagem de pedido em faturamento.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="14-c1"><span>A alteração <b>não</b> é gravada (reabrindo, sem TESTE CASO 14).</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-14" value="ok" data-k="14-r"> OK</label> <label><input type="radio" name="r-14" value="rep" data-k="14-r"> Reprovado</label><textarea data-k="14-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">15</span>Liberar o pedido para outros usuários ao fechar o assistente de faturamento</h2>
+  <div class="meta"><b>Pedidos:</b> P1 e P2 = pedidos APROVADOS com ordem de entrega e saldo</div>
+  
+  <ol><li><span class="ua">A</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P1</b>.</li><li><span class="ua">A</span> Clique em <b>Faturar</b>. O assistente de faturamento abre. <b>Deixe-o aberto</b> (não clique em Gerar Nota).</li><li><span class="ua">A</span> Feche o assistente (X ou Cancelar) <b>sem gerar a nota</b>.</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique).</li><li><span class="ub">B</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 15</code> (não salve).</li><li><span class="ub">B</span> Clique em <b>Salvar</b>.</li><li><span class="ub">B</span> Na seção de ordens de entrega, clique em <b>Adicionar</b>, informe 1 e confirme.</li><li><span class="ub">B</span> Saia do pedido.</li><li><span class="ua">A</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P2</b>.</li><li><span class="ua">A</span> Clique em <b>Faturar</b>. O assistente de faturamento abre. <b>Deixe-o aberto</b> (não clique em Gerar Nota).</li><li><span class="ua">A</span> <b>Feche a aba do navegador</b> onde está o assistente.</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique).</li><li><span class="ub">B</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 15</code> (não salve).</li><li><span class="ub">B</span> Clique em <b>Salvar</b>.</li><li><span class="ub">B</span> Na seção de ordens de entrega, clique em <b>Adicionar</b>, informe 1 e confirme.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="15-c0"><span><b>Passo 7:</b> Depois de fechar o assistente, o Salvar e o Adicionar de B funcionam <b>sem</b> a mensagem de pedido em faturamento (observação gravada e ordem criada).</span></div><div class="ck"><input type="checkbox" class="cb" data-k="15-c1"><span><b>Passo 15:</b> Depois de fechar a aba, o Salvar e o Adicionar de B funcionam <b>sem</b> a mensagem de pedido em faturamento.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-15" value="ok" data-k="15-r"> OK</label> <label><input type="radio" name="r-15" value="rep" data-k="15-r"> Reprovado</label><textarea data-k="15-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">16</span>Liberar o pedido de venda entrega futura ao salvar ou fechar a nota provisória</h2>
+  <div class="meta"><b>Pedidos:</b> P1 e P2 = pedidos de VENDA ENTREGA FUTURA aprovados, sem nota</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique).</li><li><span class="ua">A</span> Clique em <b>GERAR NOTA</b> (a nota provisória abre em outra aba). Não salve.</li><li><span class="ua">A</span> Na aba do pedido, clique em <b>Voltar</b>.</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P1</b> e abra (duplo clique).</li><li><span class="ua">A</span> Na aba da nota, conclua o acerto e clique em <b>Salvar</b>.</li><li><span class="ub">B</span> Aperte <b>F5</b> e clique em <b>GERAR NOTA</b>.</li><li><span class="ub">B</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 16</code> (não salve).</li><li><span class="ub">B</span> Clique em <b>Salvar</b>.</li><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique).</li><li><span class="ua">A</span> Clique em <b>GERAR NOTA</b>, clique em <b>Voltar</b> no pedido e <b>feche a aba da nota</b> sem salvar.</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique).</li><li><span class="ub">B</span> Clique em <b>GERAR NOTA</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="16-c0"><span><b>Passo 6:</b> Aparece o aviso de que a nota de venda futura já foi gerada.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="16-c1"><span><b>Passo 8:</b> A alteração de B é gravada normalmente.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="16-c2"><span><b>Passo 12:</b> A nota provisória abre normalmente para B.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-16" value="ok" data-k="16-r"> OK</label> <label><input type="radio" name="r-16" value="rep" data-k="16-r"> Reprovado</label><textarea data-k="16-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">17</span>Impedir a gravação de segunda nota de venda entrega futura para o mesmo pedido</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido de VENDA ENTREGA FUTURA aprovado, sem nota</div>
+  <div class="obs">Para simular "aba sem resposta": na aba da nota de A, aperte <b>F12 » Network (Rede)</b> e mude <b>No throttling</b> para <b>Offline</b>. Para voltar, mude para No throttling.</div>
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ua">A</span> Clique em <b>GERAR NOTA</b> e deixe a nota provisória aberta sem salvar.</li><li><span class="ua">A</span> Na aba da nota, coloque o navegador <b>Offline</b> (ver aviso) e cronometre mais de <b>3 minutos</b>.</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> Clique em <b>GERAR NOTA</b>, conclua o acerto e clique em <b>Salvar</b>.</li><li><span class="ua">A</span> Volte a aba da nota para <b>No throttling</b> e clique em <b>Salvar</b>.</li><li><span class="ub">B</span> Abra a nota de venda futura de B e, no menu <b>⋮</b>, clique em <b>Cancelar Nota</b> (informe a justificativa).</li><li><span class="ub">B</span> No pedido, clique em <b>GERAR NOTA</b>, conclua o acerto e clique em <b>Salvar</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="17-c0"><span><b>Passo 6:</b> Aparece "<i>Já existe uma nota fiscal de venda futura gerada para este pedido.</i>"</span></div><div class="ck"><input type="checkbox" class="cb" data-k="17-c1"><span><b>Passo 6:</b> Nenhuma segunda nota de venda futura é gravada (em Nota Fiscal, só a nota de B).</span></div><div class="ck"><input type="checkbox" class="cb" data-k="17-c2"><span><b>Passo 8:</b> A nova nota é salva normalmente.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-17" value="ok" data-k="17-r"> OK</label> <label><input type="radio" name="r-17" value="rep" data-k="17-r"> Reprovado</label><textarea data-k="17-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">18</span>Concluir o faturamento e a cópia de pedido com processos automáticos sem bloqueio da trava de faturamento</h2>
+  <div class="meta"><b>Pedidos:</b> P1 = pedido APROVADO com ordem, item com similar e item com receituário; P2 = pedido com itens com receituário</div>
+  
+  <ol><li><span class="ua">A</span> Acesse <b>Processos » Vendas » Pedido Venda</b> e clique na aba <b>FATURAMENTO</b>. Expanda o cliente e marque a caixa da ordem de entrega do pedido <b>P1</b>.</li><li><span class="ua">A</span> Clique em <b>Faturar</b>.</li><li><span class="ua">A</span> Avance com <b>Próximo</b> até o fim e clique em <b>Gerar Nota</b>.</li><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P2</b> e abra (duplo clique).</li><li><span class="ua">A</span> No menu <b>⋮</b>, clique em <b>Copiar</b> e confirme.</li><li><span class="ua">A</span> Na cópia, abra o receituário (janela <b>Defensivo</b>) de cada item.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="18-c0"><span><b>Passo 3:</b> O faturamento conclui e a nota é gerada, sem a mensagem de pedido em faturamento.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="18-c1"><span><b>Passo 6:</b> A cópia é concluída com os receituários dos itens, sem a mensagem de pedido em faturamento.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-18" value="ok" data-k="18-r"> OK</label> <label><input type="radio" name="r-18" value="rep" data-k="18-r"> Reprovado</label><textarea data-k="18-o" placeholder="Observação"></textarea></div>
+</section>
+
+<div class="secao quebra">5. Casos de risco – fora do plano de teste do desenvolvedor (19 a 21)</div>
+
+<section class="caso">
+  <h2><span class="num">19</span>Manter o pedido bloqueado para o segundo usuário enquanto quem edita permanece na busca de itens</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido PENDENTE</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ua">A</span> Clique em <b>Item</b> e fique mais de <b>3 minutos</b> na busca, pesquisando e clicando em <b>ADICIONAR</b> em alguns itens.</li><li><span class="ub">B</span> Depois de passar 3 minutos, abra o pedido <b>P</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="19-c0"><span>A tela de B abre bloqueada, com "<i>Este pedido está sendo editado por &lt;Usuário A&gt;. A tela será liberada automaticamente quando a edição for encerrada.</i>"</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-19" value="ok" data-k="19-r"> OK</label> <label><input type="radio" name="r-19" value="rep" data-k="19-r"> Reprovado</label><textarea data-k="19-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">20</span>Fechar as janelas abertas sem gravar as alterações quando o pedido é liberado por inatividade</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido PENDENTE com saldo para ordem de entrega</div>
+  
+  <ol><li><span class="ua">A</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique). (bloqueado)</li><li><span class="ua">A</span> Na linha de um item, clique em editar (lápis), mude a <b>quantidade</b> e <b>não confirme</b>.</li><li><span class="ua">A</span> Fique 5 minutos sem mexer até a liberação por inatividade.</li><li>Repita: <span class="ua">A</span> abre a janela <b>Adicionar</b> ordem de entrega, preenche a quantidade e fica 5 min parado.</li><li>Repita: <span class="ua">A</span> abre <b>⋮ » Cancelar</b>, preenche motivo e quantidade e fica 5 min parado.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="20-c0"><span><b>Passo 4:</b> Na liberação, a janela do item <b>fecha sozinha</b>.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="20-c1"><span><b>Passo 4:</b> A quantidade alterada <b>não</b> consta no pedido.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="20-c2"><span><b>Passo 5:</b> A janela de ordem de entrega fecha sozinha.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="20-c3"><span><b>Passo 5:</b> Nenhuma ordem de entrega é criada.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="20-c4"><span><b>Passo 6:</b> A modal de cancelamento fecha sozinha.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="20-c5"><span><b>Passo 6:</b> Nenhuma quantidade é cancelada.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-20" value="ok" data-k="20-r"> OK</label> <label><input type="radio" name="r-20" value="rep" data-k="20-r"> Reprovado</label><textarea data-k="20-o" placeholder="Observação"></textarea></div>
+</section>
+<section class="caso">
+  <h2><span class="num">21</span>Manter a trava de faturamento enquanto ainda houver assistente aberto em outra aba do mesmo usuário</h2>
+  <div class="meta"><b>Pedidos:</b> P = pedido APROVADO com ordem de entrega</div>
+  
+  <ol><li><span class="ua">A</span> <b>Aba 1:</b> aba FATURAMENTO » marque a ordem do pedido <b>P</b> » <b>Faturar</b> (deixe o assistente aberto).</li><li><span class="ua">A</span> <b>Aba 2:</b> faça o mesmo.</li><li><span class="ua">A</span> Na aba 2, feche o assistente (X ou Cancelar). Deixe a aba 1 aberta.</li><li><span class="ub">B</span> No menu, acesse <b>Processos » Vendas » Pedido Venda</b>, pesquise o pedido <b>P</b> e abra (duplo clique).</li><li><span class="ub">B</span> No pedido, clique no campo <b>Observações</b> e digite <code>TESTE CASO 21</code> (não salve).</li><li><span class="ub">B</span> Clique em <b>Salvar</b>.</li></ol>
+  <div class="conf"><div class="ct">Conferir</div><div class="ck"><input type="checkbox" class="cb" data-k="21-c0"><span>Aparece a mensagem informando que o pedido está sendo <b>faturado</b> pelo Usuário A.</span></div><div class="ck"><input type="checkbox" class="cb" data-k="21-c1"><span>A alteração de B não é gravada.</span></div></div>
+  <div class="res">Resultado: <label><input type="radio" name="r-21" value="ok" data-k="21-r"> OK</label> <label><input type="radio" name="r-21" value="rep" data-k="21-r"> Reprovado</label><textarea data-k="21-o" placeholder="Observação"></textarea></div>
+</section>
+<script>
+const KEY = 'nmtz-10617-checklist-v2';
+let st = {}; try { st = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+const salvar = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+document.querySelectorAll('[data-k]').forEach((el) => {
+  const key = el.dataset.k;
+  if (el.type === 'checkbox') el.checked = !!st[key];
+  else if (el.type === 'radio') el.checked = st[key] === el.value;
+  else el.value = st[key] || '';
+  el.addEventListener(el.tagName === 'TEXTAREA' ? 'input' : 'change', () => {
+    st[key] = el.type === 'checkbox' ? el.checked : el.value; salvar(); atualizar();
+  });
+});
+function atualizar() {
+  const cbs = document.querySelectorAll('.cb'), feitos = [...cbs].filter((c) => c.checked).length;
+  let ok = 0, rep = 0;
+  document.querySelectorAll('.caso').forEach((s) => {
+    const r = s.querySelector('input[type=radio]:checked');
+    s.classList.toggle('ok', !!(r && r.value === 'ok')); s.classList.toggle('rep', !!(r && r.value === 'rep'));
+    if (r) r.value === 'ok' ? ok++ : rep++;
+  });
+  document.getElementById('prog').textContent = 'Conferidos: ' + feitos + '/' + cbs.length + ' · Casos OK: ' + ok + ' · Reprovados: ' + rep + ' · Pendentes: ' + (document.querySelectorAll('.caso').length - ok - rep);
+}
+function limpar() { if (confirm('Apagar todas as marcações?')) { st = {}; salvar(); location.reload(); } }
+atualizar();
+</script></body></html>
